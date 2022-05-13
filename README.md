@@ -9,6 +9,12 @@
 3. Upgrade the pip: `pip install --upgrade pip steuptools wheel`
 4. Install requirements: `pip install -r requirements.txt`
 
+## Heroku Deployment
+
+1. If you do not already have a heroku account, create one
+2. Run `heroku create realpython-example-app`
+3. Run `git push heroku main`
+
 ## Testing
 
 Testing is done via `pytest` and `pytest-flask`. They are listed among the requirements. From the
