@@ -1,5 +1,6 @@
 from os import getenv
 
+import requests
 from flask import Flask
 
 from src.config import DevConfig
@@ -19,19 +20,17 @@ flow](https://docs.github.com/en/developers/apps/building-oauth-apps/authorizing
     3. After activation code is collected, display a table with the user's public repos.
 """
 
+app = Flask(__name__)
+env_config = getenv("APP_SETTINGS", DevConfig)
+app.config.from_object(env_config)
 
-def create_app() -> Flask:
-    app = Flask(__name__)
-    env_config = getenv("APP_SETTINGS", DevConfig)
-    app.config.from_object(env_config)
 
-    @app.route("/")
-    def index():
-        secret_key = app.config.get("SECRET_KEY")
-        return f"Found {secret_key}"
+@app.route("/")
+def index():
+    secret_key = app.config.get("SECRET_KEY")
+    return f"Found {secret_key}"
 
-    @app.route("/hello")
-    def hello_world():
-        return "<p>Hello, World!</p>"
 
-    return app
+@app.route("/github-login")
+def github_login():
+    r = requests.get('https://github.com/login/oauth/authorize')
