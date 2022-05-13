@@ -1,9 +1,8 @@
 from os import getenv
+from uuid import uuid4
 
 import requests
 from flask import Flask
-
-from src.config import DevConfig
 
 """
 - Setup a basic [Flask](https://flask.palletsprojects.com/en/2.0.x/) server that can handle the [Github OAuth web application login 
@@ -23,16 +22,22 @@ flow](https://docs.github.com/en/developers/apps/building-oauth-apps/authorizing
 
 def create_app() -> Flask:
     app = Flask(__name__)
-    env_config = getenv("APP_SETTINGS", DevConfig)
-    app.config.from_object(env_config)
+    app.config['CLIENT_ID'] = getenv("GITHUB_CLIENT_ID", "default_client")
+    app.config['CLIENT_SECRET'] = getenv("GITHUB_CLIENT_SECRET", "default_secret")
 
     @app.route("/")
     def index():
-        secret_key = app.config.get("SECRET_KEY")
+        secret_key = app.config.get("CLIENT_SECRET")
         return f"Found {secret_key}"
 
     @app.route("/github-login")
     def github_login():
-        r = requests.get('https://github.com/login/oauth/authorize')
+        payload = {'client_id': app.config.get("CLIENT_ID"), 'state': uuid4().hex}
+        r = requests.get('https://github.com/login/oauth/authorize', params=payload)
+        return r.content
+
+    @app.route("/github-callback")
+    def github_callback():
+        return "Called by github!"
 
     return app

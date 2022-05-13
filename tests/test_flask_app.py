@@ -10,4 +10,4 @@ class AppFactoryTest(TestCase):
 
     def test_basic_index(self):
         idx_resp = self.app.view_functions['index']()
-        self.assertEqual('Found default', idx_resp)
+        self.assertEqual('Found default_secret', idx_resp)
