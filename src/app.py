@@ -1,4 +1,8 @@
+from os import getenv
+
 from flask import Flask
+
+from src.config import DevConfig
 
 """
 - Setup a basic [Flask](https://flask.palletsprojects.com/en/2.0.x/) server that can handle the [Github OAuth web application login 
@@ -16,11 +20,17 @@ flow](https://docs.github.com/en/developers/apps/building-oauth-apps/authorizing
 """
 
 
-def create_app(_config_filename: str) -> Flask:
+def create_app() -> Flask:
     app = Flask(__name__)
-    # app.config.from_pyfile(config_filename)
+    env_config = getenv("APP_SETTINGS", DevConfig)
+    app.config.from_object(env_config)
 
     @app.route("/")
+    def index():
+        secret_key = app.config.get("SECRET_KEY")
+        return f"Found {secret_key}"
+
+    @app.route("/hello")
     def hello_world():
         return "<p>Hello, World!</p>"
 
