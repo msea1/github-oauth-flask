@@ -15,6 +15,9 @@
 2. Run `heroku create realpython-example-app`
 3. Run `git push heroku main`
 
+An example of this is running [here](https://github-oath-flask.herokuapp.com/).
+
+
 ## Testing
 
 Testing is done via `pytest` and `pytest-flask`. They are listed among the requirements. From the
