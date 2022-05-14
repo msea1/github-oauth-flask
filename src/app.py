@@ -24,6 +24,7 @@ def create_app() -> Flask:
     app = Flask(__name__)
     app.config['CLIENT_ID'] = getenv("GITHUB_CLIENT_ID", "default_client")
     app.config['CLIENT_SECRET'] = getenv("GITHUB_CLIENT_SECRET", "default_secret")
+    app.config['STATE_ID'] = uuid4().hex
 
     @app.route("/")
     def index():
@@ -32,9 +33,17 @@ def create_app() -> Flask:
 
     @app.route("/github-login")
     def github_login():
-        payload = {'client_id': app.config.get("CLIENT_ID"), 'state': uuid4().hex}
+        payload = {
+            'client_id': app.config.get("CLIENT_ID"),
+            'state': app.config.get("STATE_ID"),
+            'redirect_uri': 'http://127.0.0.1/session'
+        }
         r = requests.get('https://github.com/login/oauth/authorize', params=payload)
         return r.content
+
+    @app.route("/session", methods=['POST'])
+    def session(*args, **kwargs):
+        return f"in session with {args} and {kwargs}"
 
     @app.route("/github-callback")
     def github_callback():
