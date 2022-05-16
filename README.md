@@ -12,11 +12,11 @@
 ## Heroku Deployment
 
 1. If you do not already have a heroku account, create one
-2. Run `heroku create realpython-example-app`
+2. Run `heroku create <insert a name here>`
 3. Run `git push heroku main`
 
-An example of this is running [here](https://github-oath-flask.herokuapp.com/).
-
+An example of this is running [here](https://github-oath-flask.herokuapp.com/) which has an
+authorization callback at [login/authorized](https://github-oath-flask.herokuapp.com/login/authorized)
 
 ## Testing
 
