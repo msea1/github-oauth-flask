@@ -13,7 +13,6 @@ hash the github tokens
 replace user store with sqlite; maintain an in-memory cache
 create templates for each page and style content
 add unit tests
-write dockerfile
 """
 
 

@@ -18,6 +18,9 @@
 An example of this is running [here](https://github-oath-flask.herokuapp.com/) which has an
 authorization callback at [login/authorized](https://github-oath-flask.herokuapp.com/login/authorized)
 
+## Docker Deployment
+
+A docker image is available at Heroku at `registry.heroku.com/github-oath-flask/web:latest`
 ## Testing
 
 Testing is done via `pytest` and `pytest-flask`. They are listed among the requirements. From the
